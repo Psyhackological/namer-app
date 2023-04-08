@@ -51,6 +51,7 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     // Access MyAppState provided by the ChangeNotifierProvider
     var appState = context.watch<MyAppState>();
+    var pair = appState.current;
 
     return Scaffold(
       // Create a Column widget to arrange children vertically
@@ -59,7 +60,8 @@ class MyHomePage extends StatelessWidget {
           // Display a label as text
           Text('A random AWESOME idea:'),
           // Display the current word pair as lowercase text
-          Text(appState.current.asLowerCase),
+          BigCard(pair: pair),
+
           // Create an ElevatedButton with a callback to generate a new word pair
           ElevatedButton(
             onPressed: () {
@@ -69,6 +71,31 @@ class MyHomePage extends StatelessWidget {
             child: Text('Next'),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class BigCard extends StatelessWidget {
+  const BigCard({
+    super.key,
+    required this.pair,
+  });
+
+  final WordPair pair;
+
+  @override
+  Widget build(BuildContext context) {
+    var theme = Theme.of(context);
+    var style = theme.textTheme.displayMedium!.copyWith(
+      color: theme.colorScheme.onPrimary,
+    );
+
+    return Card(
+      color: theme.colorScheme.primary,
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Text(pair.asLowerCase, style: style),
       ),
     );
   }
