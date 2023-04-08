@@ -43,8 +43,10 @@ class MyAppState extends ChangeNotifier {
     notifyListeners();
   }
 
+  // List of favorite WordPairs
   var favorites = <WordPair>[];
 
+  // Method to toggle favorite status of the current WordPair and notify listeners
   void toggleFavorite() {
     if (favorites.contains(current)) {
       favorites.remove(current);
@@ -55,16 +57,19 @@ class MyAppState extends ChangeNotifier {
   }
 }
 
+// MyHomePage is a StatefulWidget that manages the navigation and page content
 class MyHomePage extends StatefulWidget {
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  // Index of the selected page
   var selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
+    // Determine the widget to display based on the selectedIndex
     Widget page;
     switch (selectedIndex) {
       case 0:
@@ -76,6 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
       default:
         throw UnimplementedError('no widget for $selectedIndex');
     }
+    // Create the Scaffold with a NavigationRail and the selected page
     return Scaffold(
       body: Row(
         children: [
@@ -93,6 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ],
               selectedIndex: selectedIndex,
+              // Update the selectedIndex when the navigation destination is selected
               onDestinationSelected: (value) {
                 setState(() {
                   selectedIndex = value;
@@ -100,6 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
           ),
+          // Display the selected page
           Expanded(
             child: Container(
               color: Theme.of(context).colorScheme.primaryContainer,
@@ -112,12 +120,15 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
+// GeneratorPage is a StatelessWidget that displays the current word pair
+// and provides controls to like the word pair or generate a new one
 class GeneratorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
     var pair = appState.current;
 
+    // Determine the icon based on whether the current word pair is a favorite
     IconData icon;
     if (appState.favorites.contains(pair)) {
       icon = Icons.favorite;
@@ -125,6 +136,7 @@ class GeneratorPage extends StatelessWidget {
       icon = Icons.favorite_border;
     }
 
+    // Create the GeneratorPage layout with a BigCard and control buttons
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -134,6 +146,7 @@ class GeneratorPage extends StatelessWidget {
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
+              // Create a button to toggle the favorite status of the current word pair
               ElevatedButton.icon(
                 onPressed: () {
                   appState.toggleFavorite();
@@ -142,6 +155,7 @@ class GeneratorPage extends StatelessWidget {
                 label: Text('Like'),
               ),
               SizedBox(width: 10),
+              // Create a button to generate a new word pair
               ElevatedButton(
                 onPressed: () {
                   appState.getNext();
@@ -156,6 +170,7 @@ class GeneratorPage extends StatelessWidget {
   }
 }
 
+// BigCard is a StatelessWidget that displays a word pair in a styled Card
 class BigCard extends StatelessWidget {
   const BigCard({
     super.key,
@@ -171,6 +186,7 @@ class BigCard extends StatelessWidget {
       color: theme.colorScheme.onPrimary,
     );
 
+    // Create a Card widget with padding and a Text widget for the word pair
     return Card(
       color: theme.colorScheme.primary,
       child: Padding(
@@ -185,17 +201,20 @@ class BigCard extends StatelessWidget {
   }
 }
 
+// FavoritesPage is a StatelessWidget that displays a list of favorite word pairs
 class FavoritesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
 
+    // Display a message if there are no favorites
     if (appState.favorites.isEmpty) {
       return Center(
         child: Text('No favorites yet.'),
       );
     }
 
+    // Create a ListView with ListTile widgets for each favorite word pair
     return ListView(
       children: [
         Padding(
