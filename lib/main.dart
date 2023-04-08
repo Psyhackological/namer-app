@@ -16,16 +16,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      // Provide an instance of MyAppState to the widget tree
       create: (context) => MyAppState(),
       child: MaterialApp(
         title: 'Namer App',
-        theme: ThemeData(
+        theme: ThemeData.dark().copyWith(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
-          // Configure app theme color scheme
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
         ),
-        // Set MyHomePage as the home page of the app
         home: MyHomePage(),
       ),
     );
@@ -87,6 +84,9 @@ class _MyHomePageState extends State<MyHomePage> {
         children: [
           SafeArea(
             child: NavigationRail(
+              // Set the background color of the NavigationRail to the surface color of the dark theme
+              backgroundColor: Colors.black12,
+
               extended: false,
               destinations: [
                 NavigationRailDestination(
