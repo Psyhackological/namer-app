@@ -55,22 +55,23 @@ class MyHomePage extends StatelessWidget {
 
     return Scaffold(
       // Create a Column widget to arrange children vertically
-      body: Column(
-        children: [
-          // Display a label as text
-          Text('A random AWESOME idea:'),
-          // Display the current word pair as lowercase text
-          BigCard(pair: pair),
-
-          // Create an ElevatedButton with a callback to generate a new word pair
-          ElevatedButton(
-            onPressed: () {
-              // Call getNext method from MyAppState to update the current word pair
-              appState.getNext();
-            },
-            child: Text('Next'),
-          ),
-        ],
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Display the current word pair as lowercase text
+            BigCard(pair: pair),
+            SizedBox(height: 10),
+            // Create an ElevatedButton with a callback to generate a new word pair
+            ElevatedButton(
+              onPressed: () {
+                // Call getNext method from MyAppState to update the current word pair
+                appState.getNext();
+              },
+              child: Text('Next'),
+            ),
+          ],
+        ),
       ),
     );
   }
